@@ -1,0 +1,85 @@
+.bugnote-icons {
+    width: 100%;
+    height: 35px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    border-radius: 5px;
+}
+
+.bugnote-icon {
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+    padding: 5px;
+    color: #1D2024;
+}
+
+.bugnote-icon:hover{
+    background-color: #CCCCCC;
+    cursor: pointer;
+}
+
+
+@media only screen and (max-width: 1886px) {
+    body {
+        .bugnote-icons {
+        }
+
+    }
+}
+
+
+emoji-picker {
+    position: absolute;
+    top: 100px;
+    left:300px;
+    z-index: 1000;
+    display: none;  /* Na začiatku skrytý */
+}
+
+/*REACTION*/
+.bugnote-reaction-icons{
+    /*border: 1px solid #CCCCCC;*/
+    /*border-radius: 5px;*/
+    /*background-color: #CCCCCC;*/
+    /*padding: 2px;*/
+    /*display: none;*/
+}
+
+.reaction-tooltip {
+    display: none;
+    position: fixed;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.reaction-modal {
+    padding: 8px;
+    width: 300px;
+    background-color: black;
+    color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    font-size: 14px;
+
+    /* Zalamovanie textu */
+    white-space: normal;
+    word-wrap: break-word; /* Zalomí dlhé slová, ak presahujú šírku */
+    word-break: break-word; /* Alternatíva na zalomenie dlhých slov */
+}
+
+.no-scroll {
+    overflow: hidden;
+}

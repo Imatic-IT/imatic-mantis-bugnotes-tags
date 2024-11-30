@@ -1,0 +1,3 @@
+<?php
+
+$s_plugin_ImaticBugnotesTags_saved_notes = 'Saved notes';
