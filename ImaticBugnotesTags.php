@@ -9,6 +9,8 @@ class ImaticBugnotesTagsPlugin extends MantisPlugin
     const GET_REACTIONS = 'get_reactions';
     const UNSAVE_REACTION = 'unsave_reaction';
 
+    const EMOJIBASE_CDN = 'https://cdn.jsdelivr.net/npm/emojibase-data@latest';
+
     public function register(): void
     {
         $this->name = 'Imatic Bugnote tags';
@@ -62,10 +64,15 @@ class ImaticBugnotesTagsPlugin extends MantisPlugin
             'EVENT_LAYOUT_BODY_END' => 'layout_body_end_hook',
             'EVENT_VIEW_BUG_DETAILS' => 'bug_view_details',
             'EVENT_MENU_FILTER' => 'menu_filter',
-
+            'EVENT_CORE_HEADERS' => 'csp_headers',
         ];
     }
 
+    function csp_headers() {
+        if( config_get_global( 'cdn_enabled' ) == ON ) {
+            http_csp_add( 'script-src', self::EMOJIBASE_CDN );
+        }
+    }
 
     function bug_view_details()
     {
