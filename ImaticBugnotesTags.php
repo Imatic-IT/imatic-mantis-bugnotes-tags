@@ -71,6 +71,8 @@ class ImaticBugnotesTagsPlugin extends MantisPlugin
     function csp_headers() {
         if( config_get_global( 'cdn_enabled' ) == ON ) {
             http_csp_add( 'script-src', self::EMOJIBASE_CDN );
+            http_csp_add('script-src', 'https://cdn.jsdelivr.net');
+            http_csp_add('connect-src', 'https://cdn.jsdelivr.net');
         }
     }
 
