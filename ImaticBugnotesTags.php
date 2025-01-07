@@ -64,18 +64,9 @@ class ImaticBugnotesTagsPlugin extends MantisPlugin
             'EVENT_LAYOUT_BODY_END' => 'layout_body_end_hook',
             'EVENT_VIEW_BUG_DETAILS' => 'bug_view_details',
             'EVENT_MENU_FILTER' => 'menu_filter',
-            'EVENT_CORE_HEADERS' => 'csp_headers',
         ];
     }
 
-    function csp_headers() {
-        if( config_get_global( 'cdn_enabled' ) == ON ) {
-            http_csp_add('connect-src', 'https://cdn.jsdelivr.net/npm/emojibase-data@latest/en/messages.json');
-            http_csp_add('connect-src', 'https://cdn.jsdelivr.net/npm/emojibase-data@latest/en/data.json');
-            http_csp_add( 'script-src', self::EMOJIBASE_CDN );
-            http_csp_add('script-src', 'https://cdn.jsdelivr.net');
-        }
-    }
 
     function bug_view_details()
     {

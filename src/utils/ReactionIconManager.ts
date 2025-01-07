@@ -1,7 +1,5 @@
-// TODO: SPRAVIT  REFACTORING !!!
 // TODO: AK JE MOC SROLLTOP TAK NEVIDNO EMOJIPICKER TREBA VALIDACIU < > OD VRCHU A ZMENIT POSITION (slack to má od určitej height to je dole alebo hore )
 import {DEFAULT_SETTINGS, getSettings, NoteSettings} from '../utils/utils';
-import {createPicker, EmojiPicker} from 'picmo';
 import {Tooltip} from "../service/Tooltip";
 
 interface Reaction {
@@ -19,12 +17,10 @@ interface ReactionResponse {
 
 export class ReactionIconManager {
     private settings: NoteSettings = DEFAULT_SETTINGS
-    private emojiPicker: HTMLElement | null = null;
     private tooltip: Tooltip = new Tooltip();
 
     constructor() {
         this.initialize();
-        this.attachEventListeners();
     }
 
     private async initialize(): Promise<void> {
@@ -38,11 +34,6 @@ export class ReactionIconManager {
 
     private async loadSettings(): Promise<void> {
         this.settings = await getSettings();
-    }
-
-    attachEventListeners(): void {
-        document.addEventListener('keydown', this.handleKeyPress.bind(this));
-        document.addEventListener('click', this.handleClick.bind(this));
     }
 
     private groupAndCountReactionsByBugnoteId(reactions: Reaction[]): Record<string, Record<string, {
@@ -145,71 +136,9 @@ export class ReactionIconManager {
         return button
     }
 
-    private applyStyles(element: HTMLElement, styles: Partial<CSSStyleDeclaration>) {
-        Object.assign(element.style, styles);
-    };
-
-    createEmojiPicker(reactionIcon: HTMLElement): void {
-        const handlePickerClose = (): void => {
-            this.closeEmojiPicker();
-            this.emojiPicker = null;
-        };
-
-        const createOrGetRootElement = (): HTMLElement => {
-            let rootElement: HTMLElement = document.querySelector('#pickerContainer') as HTMLElement;
-            if (!rootElement) {
-                rootElement = document.createElement('div');
-                rootElement.id = 'pickerContainer';
-                document.body.appendChild(rootElement);
-            }
-            return rootElement;
-        };
-
-        const setupPicker = (rootElement: HTMLElement, onSelect: (emoji: string) => void) => {
-            const picker: EmojiPicker = createPicker({rootElement});
-            picker.addEventListener('emoji:select', onSelect);
-            return picker;
-        };
-
-        const calculatePosition = (reactionIcon: HTMLElement): { top: number, left: number } => {
-            const rect: DOMRect = reactionIcon.getBoundingClientRect();
-            return {
-                top: rect.top + window.scrollY + rect.height,
-                left: rect.left + window.scrollX,
-            };
-        };
-
-        reactionIcon.addEventListener('click', (): void => {
-            if (this.emojiPicker) {
-                handlePickerClose();
-                return;
-            }
-
-            const rootElement: HTMLElement = createOrGetRootElement();
-            const {top, left} = calculatePosition(reactionIcon);
-
-            setupPicker(rootElement, (event: any): void => {
-                this.handleEmojiClick(event.emoji, reactionIcon);
-                document.body.removeChild(rootElement);
-                this.emojiPicker = null;
-            });
-
-            this.applyStyles(rootElement, {
-                position: 'absolute',
-                zIndex: '999999',
-                top: `${top}px`,
-                left: `${left}px`,
-                display: 'block',
-            });
-
-            this.emojiPicker = rootElement;
-        });
-    }
-
-
-    private async handleEmojiClick(emoji: string, button: HTMLElement): Promise<void> {
+    async handleEmojiClick(emoji: string, button: HTMLElement): Promise<void> {
         const bugnoteId = this.getBugnoteId(button);
-        const response: ReactionResponse = await this.saveReaction(emoji, bugnoteId);  // Typovanie response ako ReactionResponse
+        const response: ReactionResponse = await this.saveReaction(emoji, bugnoteId);
 
         const reactionIcons = document.querySelector(`.bugnote-reaction-icons-${bugnoteId}`);
         if (!reactionIcons) {
@@ -316,29 +245,5 @@ export class ReactionIconManager {
                 action: this.settings.actions.reaction,
             }),
         });
-    }
-
-    private handleKeyPress(event: KeyboardEvent): void {
-        if (!this.emojiPicker) return;
-        if (event.key === 'Escape') return this.closeEmojiPicker();
-    }
-
-    private handleClick(event: MouseEvent): void {
-
-        const target: HTMLElement = event.target as HTMLElement;
-        const reactionIcons = document.querySelectorAll('.bugnote-reaction-icon')
-
-        const isReactionIcon: boolean = Array.from(reactionIcons).some(icon => icon === target);
-
-        if (this.emojiPicker && !this.emojiPicker.contains(target) && !isReactionIcon) {
-            this.closeEmojiPicker();
-        }
-    }
-
-    private closeEmojiPicker(): void {
-        if (this.emojiPicker) {
-            this.emojiPicker.remove();
-            this.emojiPicker = null
-        }
     }
 }

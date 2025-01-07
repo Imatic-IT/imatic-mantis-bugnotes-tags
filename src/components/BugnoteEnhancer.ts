@@ -1,20 +1,22 @@
 import {getSettings, NoteSettings, DEFAULT_SETTINGS} from '../utils/utils';
-import 'emoji-picker-element';
 
 import {IconManager} from '../utils/IconManager';
 import {BugnotesHelper} from "../utils/BugnotesHelper";
 import {ReactionIconManager} from "../utils/ReactionIconManager";
+import {ImaticEmojiPicker} from "../emojiPicker/ImaticEmojiPicker";
 
 export class BugnoteEnhancer {
     private settings: NoteSettings = DEFAULT_SETTINGS
     private iconManager: IconManager = new IconManager();
     private bugnoteHelper: BugnotesHelper = new BugnotesHelper();
     private reactionIconManager: ReactionIconManager = new ReactionIconManager();
+    private imaticEmojiPicker: ImaticEmojiPicker | null = null;
     private highlightedBugnotes: string[] = [];
     private highlightedClass: string = 'highlighted';
 
 
-     async init() {
+    async init() {
+        this.imaticEmojiPicker = new ImaticEmojiPicker()
         await this.moveSavedBugnotesButton()
         await this.loadSettings()
         await this.loadHighlightedBugnotes()
@@ -34,7 +36,6 @@ export class BugnoteEnhancer {
         const bugnotes: HTMLTableCellElement[] | null = this.bugnoteHelper.getBugnotesTableRows();
         if (!bugnotes || bugnotes.length === 0) return;
 
-        // Použitie requestIdleCallback na vykonanie funkcie po tom, ako prehliadač dokončí svoju úlohu
         requestIdleCallback(async () => {
             for (const bugnote of bugnotes) {
                 await this.processBugnote(bugnote);
@@ -62,19 +63,22 @@ export class BugnoteEnhancer {
 
         saveIcon.addEventListener('click', () => this.handleSaveIconClick(bugnote));
 
-        //TODO FIX THIS .... :/
-        // await this.delay(200);
-
         const reactedIconContainer = await this.reactionIconManager.createReactionContainer(bugnoteId);
         bugnote.appendChild(reactedIconContainer);
 
-        this.reactionIconManager.createEmojiPicker(reactionIcon)
+        reactionIcon.addEventListener('click', (event: MouseEvent) => {
+            this.handleReactionIconClick(event ,reactionIcon)
+        })
+
     }
 
+    private handleReactionIconClick(event:MouseEvent, reactionIcon: HTMLElement): void {
+        this.imaticEmojiPicker?.showModalOnClick(event,reactionIcon);
 
-    // private  delay(ms: number): Promise<void> {
-    //     return new Promise(resolve => setTimeout(resolve, ms));
-    // }
+        this.imaticEmojiPicker?.setOnEmojiSelect((emoji: string) => {
+            this.reactionIconManager.handleEmojiClick(emoji, reactionIcon)
+        })
+    }
 
     private createElement<K extends keyof HTMLElementTagNameMap>(tag: K, className: string): HTMLElementTagNameMap[K] {
         const element = document.createElement(tag);
