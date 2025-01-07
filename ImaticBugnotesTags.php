@@ -64,6 +64,7 @@ class ImaticBugnotesTagsPlugin extends MantisPlugin
             'EVENT_LAYOUT_BODY_END' => 'layout_body_end_hook',
             'EVENT_VIEW_BUG_DETAILS' => 'bug_view_details',
             'EVENT_MENU_FILTER' => 'menu_filter',
+            'EVENT_LAYOUT_RESOURCES' => 'addHighlightStylesHook',
         ];
     }
 
@@ -72,7 +73,6 @@ class ImaticBugnotesTagsPlugin extends MantisPlugin
     {
         if (isset($_GET['id'])) {
             $issue_id = $_GET['id'];
-            $issue = bug_get_row($issue_id);
             echo '<a id="savedBugnotesLinkButton" class="btn btn-primary btn-white btn-round btn-sm" href="' . plugin_page('savedBugnotes') . '&id=' . $issue_id . '"> '. plugin_lang_get('saved_notes') .' </a>';
         }
     }
@@ -100,16 +100,6 @@ class ImaticBugnotesTagsPlugin extends MantisPlugin
 
         echo '<script id="imaticNoteHighlighting" data-data="' . $t_data . '" src="' . plugin_file('bundle.js') . '&v=' . $this->version . '" defer></script>;
             <link rel="stylesheet" type="text/css" href="' . plugin_file('style.css') . '&v=' . $this->version . '" />';
-
-        echo '
-        <style>
-            .highlighted {
-                border: ' . plugin_config_get('highlighted')['border-type'] . ' ' . plugin_config_get('highlighted')['thickness'] . ' ' . plugin_config_get('highlighted')['color'] . ';             
-            }
-            .table.table-bordered.table-condensed.table-striped:first-child {
-                margin-top: ' . plugin_config_get('highlighted')['thickness'] . ';
-            }
-        ';
     }
 
     public function getActions(): array
@@ -122,5 +112,23 @@ class ImaticBugnotesTagsPlugin extends MantisPlugin
             self::UNSAVE_REACTION => self::UNSAVE_REACTION,
             self::GET_REACTIONS => self::GET_REACTIONS
         ];
+    }
+
+    public function addHighlightStylesHook($p_event): void
+    {
+        $this->addHighlightStyles();
+    }
+    private function addHighlightStyles(): void
+    {
+        echo '
+    <style>
+        .highlighted {
+            border: ' . plugin_config_get('highlighted')['border-type'] . ' ' . plugin_config_get('highlighted')['thickness'] . ' ' . plugin_config_get('highlighted')['color'] . ';
+        }
+        .table.table-bordered.table-condensed.table-striped:first-child {
+            margin-top: ' . plugin_config_get('highlighted')['thickness'] . ';
+        }
+    </style>
+    ';
     }
 }
