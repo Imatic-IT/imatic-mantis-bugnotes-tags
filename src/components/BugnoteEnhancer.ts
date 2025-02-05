@@ -36,10 +36,13 @@ export class BugnoteEnhancer {
         const bugnotes: HTMLTableCellElement[] | null = this.bugnoteHelper.getBugnotesTableRows();
         if (!bugnotes || bugnotes.length === 0) return;
 
-        requestIdleCallback(async () => {
+        requestIdleCallback(async ():Promise<void> => {
             for (const bugnote of bugnotes) {
                 await this.processBugnote(bugnote);
             }
+            (() => {
+                document.querySelectorAll('.hidden-until-ready').forEach(el => el.classList.remove('hidden-until-ready'));
+            })();
         });
     }
 
@@ -82,7 +85,7 @@ export class BugnoteEnhancer {
 
     private createElement<K extends keyof HTMLElementTagNameMap>(tag: K, className: string): HTMLElementTagNameMap[K] {
         const element = document.createElement(tag);
-        element.classList.add(className);
+        element.classList.add(className, 'hidden-until-ready');
         return element;
     }
 

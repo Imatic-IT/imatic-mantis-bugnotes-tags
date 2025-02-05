@@ -88,7 +88,7 @@ export class ReactionIconManager {
         const reactionsByBugnote = this.groupAndCountReactionsByBugnoteId(reactions);
 
         const div: HTMLElement = document.createElement("div");
-        div.classList.add('bugnote-reaction-icons', 'bugnote-reaction-icons-' + bugnoteId);
+        div.classList.add('bugnote-reaction-icons', 'bugnote-reaction-icons-' + bugnoteId, 'hidden-until-ready');
 
         if (!reactionsByBugnote[bugnoteId]) {
             return div;

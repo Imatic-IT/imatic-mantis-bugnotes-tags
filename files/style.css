@@ -30,24 +30,6 @@
     }
 }
 
-
-emoji-picker {
-    position: absolute;
-    top: 100px;
-    left:300px;
-    z-index: 1000;
-    display: none;  /* Na začiatku skrytý */
-}
-
-/*REACTION*/
-.bugnote-reaction-icons{
-    /*border: 1px solid #CCCCCC;*/
-    /*border-radius: 5px;*/
-    /*background-color: #CCCCCC;*/
-    /*padding: 2px;*/
-    /*display: none;*/
-}
-
 .reaction-tooltip {
     display: none;
     position: fixed;
@@ -74,89 +56,68 @@ emoji-picker {
     z-index: 1000;
     font-size: 14px;
 
-    /* Zalamovanie textu */
+
     white-space: normal;
-    word-wrap: break-word; /* Zalomí dlhé slová, ak presahujú šírku */
-    word-break: break-word; /* Alternatíva na zalomenie dlhých slov */
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
 .no-scroll {
     overflow: hidden;
 }
 
-
-
-
 #emojiPickerModal{
     overflow: hidden;
-
 }
 
-/* Nastavenie veľkosti modalu */
 #emojiPickerModal .modal-dialog {
-    max-width: 100%; /* Môžete upravit podľa potreby */
+    max-width: 100%;
     width: auto;
 }
 
-/* Nastavenie maximálnej výšky a skrolovania pre telo modalu */
 #emojiPickerModal .modal-body {
-    max-height: 400px;  /* Nastavte výšku podľa potreby */
-    overflow-y: auto;   /* Povolenie vertikálneho posúvania */
+    max-height: 400px;
+    overflow-y: auto;
 }
 
-/* Voliteľne, môžete nastavit šírku a výšku pre celkový modal */
 #emojiPickerModal .modal-content {
-    max-width: 300px; /* Nastavte šírku podľa potreby */
+    max-width: 300px;
 }
-
 
 
 .emoji-filters {
-    display: flex;          /* Zobrazí položky v riadku */
-    justify-content: flex-start;  /* Zarovná položky na začiatok */
-    gap: 10px;              /* Pridá medzeru medzi tlačidlami */
-    /*flex-wrap: wrap;        !* Ak je potrebné, položky sa zbalí na ďalší riadok *!*/
-    margin-bottom: 10px;    /* Pridá medzeru pod filtrami */
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+
+    margin-bottom: 10px;
 }
 
 .emoji-filter-btn {
-    display: flex;          /* Umožní kontrolu nad riadkom */
-    align-items: center;    /* Zarovná smajlíky vertikálne */
-    cursor: pointer;        /* Ukazovateľ na tlačidlách */
+    display: flex;
+    align-items: center;
+    cursor: pointer;
 }
 
 .emoji-filter-link {
-    font-size: 12px;        /* Veľkosť smajlíka */
-    /*padding: 5px;           !* Medzera okolo smajlíka *!*/
-    transition: transform 0.3s ease; /* Efekt pri prejdení myšou */
+    font-size: 12px;
+    transition: transform 0.3s ease;
 }
 
 .emoji-filter-link:hover {
-    transform: scale(1.2);  /* Zvýši veľkosť smajlíka pri hover */
+    transform: scale(1.2);
 }
-
-/*body.modal-open {*/
-/*    height: 100vh; !* Uzamkne výšku na veľkosť viewportu *!*/
-/*    overflow-y: hidden; !* Skryje vertikálne skrolovanie *!*/
-/*    padding-right: 15px; !* Kompenzácia pre šírku scrollbar-u *!*/
-
-/*    background-color: red !important;*/
-/*    color: red !important;*/
-/*}*/
-
-/*.emoji-group {*/
-/*    display: flex;          !* Umožní kontrolu nad riadkom *!*/
-/*    align-items: center;    !* Zarovná smajlíky vertikálne *!*/
-/*    cursor: pointer;        !* Ukazovateľ na tlačidlách *!*/
-/*}*/
 
 .emoji-btn{
     border: none;
     background-color: #ffffff;
-
 }
 
 .modal-body {
     overflow-y: auto;
-    max-height: 400px; /* Nastav výšku podľa potreby */
+    max-height: 400px;
+}
+
+.hidden-until-ready {
+    display: none;
 }
