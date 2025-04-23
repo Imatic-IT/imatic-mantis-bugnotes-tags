@@ -96,11 +96,10 @@ class BugnoteHighlightsManager
     private function unhighlight()
     {
         $userId = $this->getUserId();
-        $bugId = $this->data['bugId'];
         $bugnoteId = $this->bugnote['id'];
 
-        $query = 'DELETE FROM ' . db_get_table('imatic_bugnote_tags') . ' WHERE bug_id = ' . db_param() . ' AND bugnote_id = ' . db_param() . ' AND user_id = ' . db_param();
-        $params = [$bugId, $bugnoteId, $userId];
+        $query = 'DELETE FROM ' . db_get_table('imatic_bugnote_tags') . ' WHERE bugnote_id = ' . db_param() . ' AND user_id = ' . db_param();
+        $params = [ $bugnoteId, $userId];
 
         db_query($query, $params);
 
