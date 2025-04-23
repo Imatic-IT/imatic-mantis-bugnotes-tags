@@ -24,8 +24,7 @@ export class BugnotesHelper {
             })
 
             if (response.ok) {
-                const data = await response.json();
-                return data
+                return  await response.json();
             } else {
                 console.error(`Error fetching issues: ${response.statusText}`);
             }

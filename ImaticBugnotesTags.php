@@ -15,7 +15,7 @@ class ImaticBugnotesTagsPlugin extends MantisPlugin
     {
         $this->name = 'Imatic Bugnote tags';
         $this->description = 'This plugin provides highlighting of notes and reaction on notes in MantisBT.';
-        $this->version = '0.0.1';
+        $this->version = '0.1.1';
         $this->requires = [
             'MantisCore' => '2.0.0',
         ];

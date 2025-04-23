@@ -113,10 +113,9 @@ class BugnoteHighlightsManager
     private function getHighlights(): void
     {
         $userId = $this->getUserId();
-        $bugId = $this->data['bugId'];
 
-        $query = 'SELECT bugnote_id FROM ' . db_get_table('imatic_bugnote_tags') . ' WHERE bug_id = ' . db_param() . ' AND user_id = ' . db_param() . ' AND type = ' . db_param();
-        $params = [$bugId, $userId, $this->plugin::HIGHLIGHT];
+        $query = 'SELECT bugnote_id FROM ' . db_get_table('imatic_bugnote_tags') . ' WHERE  user_id = ' . db_param() . ' AND type = ' . db_param();
+        $params = [$userId, $this->plugin::HIGHLIGHT];
 
         $queryResult = db_query($query, $params);
 

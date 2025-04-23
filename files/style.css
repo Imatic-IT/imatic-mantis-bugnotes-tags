@@ -121,3 +121,45 @@
 .hidden-until-ready {
     display: none;
 }
+
+
+
+/*SAVED BUGNOTES PAGE */
+
+.project-item {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.project-header {
+    display: flex;
+    align-items: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+}
+
+.project-header i {
+    margin-right: 10px;
+    color: #4CAF50; /* Farba ikony (zelená pre projekty) */
+}
+
+.project-name {
+    color: #333;
+}
+
+.project-count {
+    margin-left: 10px;
+    font-size: 0.9em;
+    color: #888;
+}
+
+.project-count i {
+    margin-right: 2px;
+    color: #2196F3; /* Farba ikony pre počet issues (modrá) */
+}
