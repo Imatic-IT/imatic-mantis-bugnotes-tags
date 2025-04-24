@@ -89,9 +89,10 @@ class ImaticBugnotesTagsPlugin extends MantisPlugin
 
     public function layout_body_end_hook($p_event)
     {
-        if (!isset($_GET['id'])) {
+        if (!$this->shouldInjectHighlightingAssets()) {
             return;
         }
+
         $t_data = htmlspecialchars(json_encode([
             'url' => plugin_page('manageBugnoteHighlights'),
             'actions' => $this->getActions(),
@@ -101,6 +102,12 @@ class ImaticBugnotesTagsPlugin extends MantisPlugin
         echo '<script id="imaticNoteHighlighting" data-data="' . $t_data . '" src="' . plugin_file('bundle.js') . '&v=' . $this->version . '" defer></script>;
             <link rel="stylesheet" type="text/css" href="' . plugin_file('style.css') . '&v=' . $this->version . '" />';
     }
+
+    private function shouldInjectHighlightingAssets(): bool
+    {
+        return isset($_GET['id']) || (isset($_GET['page']) && $_GET['page'] === 'ImaticBugnotesTags/savedBugnotes');
+    }
+
 
     public function getActions(): array
     {
