@@ -101,10 +101,10 @@ $itemCount = array_map(function ($bugnotes) {
                         <table class="table table-bordered table-condensed table-striped">
                             <tbody>
                             <tr class="bugnote visible-on-hover-toggle "
-                                id="c<?php echo $bugnote['bugnote_text_id']; ?>">
+                                id="c<?php echo $bugnote['id']; ?>">
 
                                 <a rel="bookmark"
-                                   href="view.php?id=<?php echo $bugnote['bug_id']; ?>
+                                   href="view.php?id=<?php echo $bugnote['bug_id']; ?>"
                                        class=" lighter" title="Přímý odkaz na poznámku">
                                 <?php echo bug_format_id($bugnote['bug_id']); ?>
                                 </a> -
@@ -138,7 +138,7 @@ $itemCount = array_map(function ($bugnotes) {
                                             <a rel="bookmark"
                                                href="view.php?id=<?php echo $bugnote['bug_id']; ?>#c<?php echo $bugnote['id']; ?>"
                                                class="lighter" title="Přímý odkaz na poznámku">
-                                                ~000<?php echo $bugnote['bugnote_text_id']; ?>
+                                                <?php echo bugnote_format_id($bugnote['id']); ?>
                                             </a>
                                         </p>
                                         <div class="clearfix"></div>
@@ -152,7 +152,7 @@ $itemCount = array_map(function ($bugnotes) {
                                                                 class="btn btn-primary btn-xs btn-white btn-round"><?php echo lang_get('bugnote_edit_link'); ?>
                                                         </button>
                                                         <input type="hidden" name="bugnote_id"
-                                                               value="<?php echo $bugnote['bugnote_text_id']; ?>">
+                                                               value="<?php echo $bugnote['id']; ?>">
                                                     </fieldset>
                                                 </form>
                                             </div>
