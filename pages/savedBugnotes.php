@@ -83,11 +83,11 @@ $itemCount = array_map(function ($bugnotes) {
     <?php foreach ($data as $key => $item): ?>
 
         <div class="project-item">
-                <div class="project-header">
-                    <span class="pr"><?php echo project_get_name($key); ?></span>
-                    <span class="project-count"><i class="fa fa-bookmark"></i> <?php echo $itemCount[$key]; ?> </span>
-                </div>
+            <div class="project-header">
+                <span class="pr"><?php echo project_get_name($key); ?></span>
+                <span class="project-count"><i class="fa fa-bookmark"></i> <?php echo $itemCount[$key]; ?> </span>
             </div>
+        </div>
 
         <?php foreach ($item as $bugnote): ?>
 
@@ -105,8 +105,8 @@ $itemCount = array_map(function ($bugnotes) {
 
                                 <a rel="bookmark"
                                    href="view.php?id=<?php echo $bugnote['bug_id']; ?>"
-                                       class=" lighter" title="Přímý odkaz na poznámku">
-                                <?php echo bug_format_id($bugnote['bug_id']); ?>
+                                   class=" lighter" title="Přímý odkaz na poznámku">
+                                    <?php echo bug_format_id($bugnote['bug_id']); ?>
                                 </a> -
 
                                 <strong>
@@ -159,7 +159,16 @@ $itemCount = array_map(function ($bugnotes) {
                                         </div>
                                 </td>
                                 <td class="bugnote-note <?php echo $bugnote['view_state'] === VS_PRIVATE ? ' bugnote-private' : ' bugnote-public' ?>">
-                                    <p><?php echo htmlspecialchars($bugnote['note']); ?></p>
+                                    <?php
+                                    if (plugin_is_installed('ImaticFormatting')) {
+                                        /** @var ImaticFormattingPlugin $markdownPlugin */
+                                        $markdownPlugin = plugin_get('ImaticFormatting');
+                                        $convertedHtml = $markdownPlugin->convert($bugnote['note']);
+                                    } else {
+                                        $convertedHtml = htmlspecialchars($bugnote['note']);
+                                    }
+                                    ?>
+                                    <p><?php echo $convertedHtml ?></p>
                                 </td>
                             </tr>
                             <tr class="spacer">
