@@ -18,6 +18,13 @@ interface ReactionResponse {
 export class ReactionIconManager {
     private settings: NoteSettings = DEFAULT_SETTINGS
     private tooltip: Tooltip = new Tooltip();
+    // private reactionsCache: Reaction[] | null = null;
+
+
+    private reactionsCache: Record<string, Record<string, {
+        count: number;
+        usernames: string[];
+    }>> | null = null;
 
     constructor() {
         this.initialize();
@@ -120,7 +127,7 @@ export class ReactionIconManager {
         return element;
     }
 
-    private createReactionButton(reaction: string, usernames: string[]): HTMLElement {
+    createReactionButton(reaction: string, usernames: string[]): HTMLElement {
         const button: HTMLButtonElement = this.createButton(reaction)
         const tooltip: HTMLDivElement = this.tooltip.createTooltip()
 
@@ -245,5 +252,20 @@ export class ReactionIconManager {
                 action: this.settings.actions.reaction,
             }),
         });
+    }
+
+
+    async getGroupedReactions(): Promise<Record<string, Record<string, {
+        count: number;
+        usernames: string[];
+    }>>> {
+
+        if (this.reactionsCache) return this.reactionsCache;
+
+        const reactions = await this.getAllReactions();
+
+        this.reactionsCache = this.groupAndCountReactionsByBugnoteId(reactions);
+
+        return this.reactionsCache;
     }
 }

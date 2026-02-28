@@ -36,23 +36,29 @@ export class BugnoteEnhancer {
         const bugnotes: HTMLTableCellElement[] | null = this.bugnoteHelper.getBugnotesTableRows();
         if (!bugnotes || bugnotes.length === 0) return;
 
-        requestIdleCallback(async ():Promise<void> => {
-            for (const bugnote of bugnotes) {
-                await this.processBugnote(bugnote);
-            }
-            (() => {
-                document.querySelectorAll('.hidden-until-ready').forEach(el => el.classList.remove('hidden-until-ready'));
-            })();
-        });
+        const groupedReactions = await this.reactionIconManager.getGroupedReactions();
+
+        for (const bugnote of bugnotes) {
+            this.processBugnote(bugnote, groupedReactions);
+        }
+
+        document
+            .querySelectorAll('.hidden-until-ready')
+            .forEach(el => el.classList.remove('hidden-until-ready'));
     }
 
-    private async processBugnote(bugnote: HTMLTableCellElement): Promise<void> {
-        const bugnoteId: string = bugnote.parentElement!.id;
-        const divWrapper: HTMLDivElement = this.createDivWrapper();
-        const div: HTMLDivElement = this.createBugnoteIconsDiv();
+    private processBugnote(
+        bugnote: HTMLTableCellElement,
+        groupedReactions: Record<string, Record<string, { count: number; usernames: string[] }>>
+    ): void {
 
-        const saveIcon: HTMLElement = this.iconManager.createSaveBugnoteIcon();
-        const reactionIcon: HTMLElement = this.iconManager.createReactionOnBugnoteIcon();
+        const bugnoteId = bugnote.parentElement!.id;
+
+        const divWrapper = this.createDivWrapper();
+        const div = this.createBugnoteIconsDiv();
+
+        const saveIcon = this.iconManager.createSaveBugnoteIcon();
+        const reactionIcon = this.iconManager.createReactionOnBugnoteIcon();
 
         if (this.highlightedBugnotes.includes(bugnoteId)) {
             this.makeBugnoteHighlighted(bugnote);
@@ -62,17 +68,54 @@ export class BugnoteEnhancer {
 
         div.append(saveIcon, reactionIcon);
         divWrapper.appendChild(div);
-        bugnote.appendChild(divWrapper);
 
-        saveIcon.addEventListener('click', () => this.handleSaveIconClick(bugnote));
+        const reactionContainer = this.createReactionContainerFromMap(
+            bugnoteId,
+            groupedReactions
+        );
 
-        const reactedIconContainer = await this.reactionIconManager.createReactionContainer(bugnoteId);
-        bugnote.appendChild(reactedIconContainer);
+        bugnote.append(divWrapper, reactionContainer);
 
-        reactionIcon.addEventListener('click', (event: MouseEvent) => {
-            this.handleReactionIconClick(event ,reactionIcon)
-        })
+        saveIcon.addEventListener('click', () =>
+            this.handleSaveIconClick(bugnote)
+        );
 
+        reactionIcon.addEventListener('click', (event: MouseEvent) =>
+            this.handleReactionIconClick(event, reactionIcon)
+        );
+    }
+
+
+    private createReactionContainerFromMap(
+        bugnoteId: string,
+        groupedReactions: Record<string, Record<string, { count: number; usernames: string[] }>>
+    ): HTMLElement {
+
+        const div = document.createElement("div");
+        div.classList.add(
+            'bugnote-reaction-icons',
+            'bugnote-reaction-icons-' + bugnoteId
+        );
+
+        const reactionsForNote = groupedReactions[bugnoteId];
+        if (!reactionsForNote) return div;
+
+        for (const [emoji, { count, usernames }] of Object.entries(reactionsForNote)) {
+
+            const button = this.reactionIconManager.createReactionButton(
+                emoji,
+                usernames
+            );
+
+            const span = document.createElement('span');
+            span.classList.add('reaction-count');
+            span.textContent = count.toString();
+
+            button.appendChild(span);
+            div.appendChild(button);
+        }
+
+        return div;
     }
 
     private handleReactionIconClick(event:MouseEvent, reactionIcon: HTMLElement): void {
