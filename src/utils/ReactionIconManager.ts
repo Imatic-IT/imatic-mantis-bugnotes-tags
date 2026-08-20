@@ -72,8 +72,8 @@ export class ReactionIconManager {
         try {
             const response = await fetch(this.settings.url, {
                 method: 'POST',
-                headers: {'Content-Type': 'application-json'},
-                body: JSON.stringify({bugId: this.settings.bugId, action: this.settings.actions.get_reactions})
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({bugId: this.settings.bugId, action: this.settings.actions.get_reactions, csrfToken: this.settings.csrfToken})
             })
 
             if (!response.ok) {
@@ -250,6 +250,7 @@ export class ReactionIconManager {
                 bugId: this.settings.bugId,
                 emoji,
                 action: this.settings.actions.reaction,
+                csrfToken: this.settings.csrfToken,
             }),
         });
     }

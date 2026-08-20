@@ -30,6 +30,37 @@
     }
 }
 
+/* --- Reaction chips (persisted reactions under a bugnote) --- */
+
+.bugnote-reaction-icons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+}
+
+.reaction-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 20px;
+    line-height: 1;
+    padding: 3px 9px;
+    border: 1px solid #d6d6d6;
+    border-radius: 14px;
+    background: #f4f4f4;
+    cursor: pointer;
+}
+
+.reaction-button:hover {
+    background: #e6e6e6;
+}
+
+.reaction-button .reaction-count {
+    font-size: 12px;
+    color: #555;
+}
+
 .reaction-tooltip {
     display: none;
     position: fixed;
@@ -122,6 +153,80 @@
     display: none;
 }
 
+
+/* --- Per-note collapse noodle --- */
+
+.bugnote.collapsed .bugnote-note > *:not(.bugnote-collapsed-summary) {
+    display: none;
+}
+
+.bugnote.collapsed .category > div:not(.bugnote-wrapper) {
+    display: none;
+}
+
+.bugnote.collapsed .bugnote-collapsed-summary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 10px;
+    font-size: 12px;
+    color: #666;
+    background: #f5f5f5;
+    border-left: 3px solid #ccc;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.bugnote.collapsed .bugnote-collapsed-summary .author { font-weight: 600; color: #444; flex: 0 0 auto; }
+.bugnote.collapsed .bugnote-collapsed-summary .date   { color: #999; flex: 0 0 auto; }
+.bugnote.collapsed .bugnote-collapsed-summary .sep    { color: #ccc; flex: 0 0 auto; }
+.bugnote.collapsed .bugnote-collapsed-summary .preview {
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #555;
+}
+
+.bugnote-collapsed-summary { display: none; }
+
+
+/* --- Group fold placeholder --- */
+
+.bugnote-fold-placeholder td {
+    padding: 6px 12px;
+    font-size: 12px;
+    color: #888;
+    background: #fafafa;
+    border-top: 1px dashed #ddd;
+    border-bottom: 1px dashed #ddd;
+    cursor: pointer;
+    text-align: center;
+}
+
+.bugnote-fold-placeholder td:hover {
+    background: #f0f0f0;
+    color: #555;
+}
+
+
+/* --- Emoji picker readability --- */
+
+#emojiPickerModal .emoji-btn {
+    font-size: 24px;
+    padding: 4px 6px;
+    line-height: 1.2;
+}
+
+#emojiPickerModal .emoji-filter-link {
+    font-size: 20px;
+}
+
+#emojiPickerModal .emoji-group p {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #888;
+}
 
 
 /*SAVED BUGNOTES PAGE */

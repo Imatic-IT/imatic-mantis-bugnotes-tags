@@ -20,6 +20,7 @@ export class BugnotesHelper {
                 body: JSON.stringify({
                     action: this.settings.actions.get_highlights,
                     bugId: this.settings.bugId,
+                    csrfToken: this.settings.csrfToken,
                 }),
             })
 

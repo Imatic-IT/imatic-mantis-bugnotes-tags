@@ -26,4 +26,20 @@ export class IconManager {
         i.classList.add('bugnote-icon', 'fa', 'fa-smile-o', 'bugnote-reaction-icon')
         return i;
     }
+
+    createCollapseBugnoteIcon(): HTMLElement {
+        const i = document.createElement('i');
+        i.classList.add('bugnote-icon', 'bugnote-collapse-icon', 'fa', 'fa-chevron-down');
+        return i;
+    }
+
+    toggleCollapseIcon(bugnote: HTMLTableCellElement, isCollapsed: boolean): void {
+        const icon = bugnote.querySelector('.bugnote-collapse-icon');
+        if (!icon) return;
+        if (isCollapsed) {
+            icon.classList.replace('fa-chevron-down', 'fa-chevron-right');
+        } else {
+            icon.classList.replace('fa-chevron-right', 'fa-chevron-down');
+        }
+    }
 }

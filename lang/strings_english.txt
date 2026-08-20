@@ -1,3 +1,9 @@
 <?php
 
-$s_plugin_ImaticBugnotesTags_saved_notes = 'Saved notes';
+$s_plugin_ImaticBugnotesTags_saved_notes    = 'Saved notes';
+$s_plugin_ImaticBugnotesTags_fold_unsaved   = 'Hide unsaved';
+$s_plugin_ImaticBugnotesTags_show_all       = 'Show all';
+$s_plugin_ImaticBugnotesTags_collapsed_summary_more = '%d more characters';
+$s_plugin_ImaticBugnotesTags_n_notes_hidden = '%d notes hidden — click to expand';
+$s_plugin_ImaticBugnotesTags_filter_project = 'Project filter';
+$s_plugin_ImaticBugnotesTags_all_projects   = 'All projects';

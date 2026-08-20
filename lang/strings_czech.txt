@@ -1,3 +1,9 @@
 <?php
 
-$s_plugin_ImaticBugnotesTags_saved_notes = 'Uložené poznámky';
+$s_plugin_ImaticBugnotesTags_saved_notes    = 'Uložené poznámky';
+$s_plugin_ImaticBugnotesTags_fold_unsaved   = 'Skrýt neoznačené';
+$s_plugin_ImaticBugnotesTags_show_all       = 'Zobrazit vše';
+$s_plugin_ImaticBugnotesTags_collapsed_summary_more = '%d dalších znaků';
+$s_plugin_ImaticBugnotesTags_n_notes_hidden = 'Skrytých poznámek: %d — klikněte pro rozbalení';
+$s_plugin_ImaticBugnotesTags_filter_project = 'Filtr projektu';
+$s_plugin_ImaticBugnotesTags_all_projects   = 'Všechny projekty';
