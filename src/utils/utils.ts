@@ -13,12 +13,16 @@ export const DEFAULT_SETTINGS: NoteSettings = {
     get_collapsed: "",
     set_fold_mode: "",
     get_fold_mode: "",
+    collapse_all: "",
+    uncollapse_all: "",
   },
   bugId: "",
   lang: {
     fold_unsaved: "Hide unsaved",
     show_all: "Show all",
     n_notes_hidden: "%d notes hidden — click to expand",
+    fold_all: "Fold all",
+    unfold_all: "Unfold all",
   },
 };
 
@@ -37,12 +41,16 @@ export interface NoteSettings {
     get_collapsed: string;
     set_fold_mode: string;
     get_fold_mode: string;
+    collapse_all: string;
+    uncollapse_all: string;
   };
   bugId: string;
   lang: {
     fold_unsaved: string;
     show_all: string;
     n_notes_hidden: string;
+    fold_all: string;
+    unfold_all: string;
   };
 }
 

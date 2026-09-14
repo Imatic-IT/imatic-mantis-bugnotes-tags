@@ -7,3 +7,5 @@ $s_plugin_ImaticBugnotesTags_collapsed_summary_more = '%d dalších znaků';
 $s_plugin_ImaticBugnotesTags_n_notes_hidden = 'Skrytých poznámek: %d — klikněte pro rozbalení';
 $s_plugin_ImaticBugnotesTags_filter_project = 'Filtr projektu';
 $s_plugin_ImaticBugnotesTags_all_projects   = 'Všechny projekty';
+$s_plugin_ImaticBugnotesTags_fold_all     = 'Sbalit vše';
+$s_plugin_ImaticBugnotesTags_unfold_all   = 'Rozbalit vše';

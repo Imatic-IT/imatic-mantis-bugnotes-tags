@@ -18,3 +18,15 @@ Upload the folder into `plugins/` in your Mantis installation so that you have `
 ## Styling
 
 This plugin loads its CSS via `EVENT_LAYOUT_RESOURCES` and `EVENT_LAYOUT_BODY_END` — no core patch is required.
+
+## Testing
+
+Integration tests exercise `BugnoteHighlightsManager` directly (highlight, collapse, fold-all,
+reactions, access control) against a real Mantis + database — see `tests/`.
+
+```bash
+# from the Mantis root
+BNT_TESTS_MANTIS=1 vendor/bin/phpunit -c plugins/ImaticBugnotesTags/phpunit.xml
+```
+
+Runs in CI on every push (`.github/workflows/cd.yml`), same as EmailReporting's suite.

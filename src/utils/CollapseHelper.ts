@@ -73,6 +73,40 @@ export class CollapseHelper {
         }
     }
 
+    /**
+     * Collapse every note the bug currently has (server-side snapshot).
+     * Returns the list of collapsed note ids, or null when the call failed.
+     */
+    async collapseAll(): Promise<string[] | null> {
+        return this.bulkCollapse(this.settings.actions.collapse_all);
+    }
+
+    async uncollapseAll(): Promise<string[] | null> {
+        return this.bulkCollapse(this.settings.actions.uncollapse_all);
+    }
+
+    private async bulkCollapse(action: string): Promise<string[] | null> {
+        try {
+            const response = await fetch(this.settings.url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    action,
+                    bugId: this.settings.bugId,
+                    csrfToken: this.settings.csrfToken,
+                }),
+            });
+            if (response.ok) {
+                const data = await response.json();
+                return Array.isArray(data.collapsed) ? data.collapsed : [];
+            }
+            console.error(`Error in bulk collapse: ${response.statusText}`);
+        } catch (e) {
+            console.error(e);
+        }
+        return null;
+    }
+
     async collapse(bugnoteId: string): Promise<boolean> {
         try {
             const response = await fetch(this.settings.url, {

@@ -210,6 +210,18 @@
 }
 
 
+/* --- Toolbar buttons (fold all / hide unsaved) ---
+   Mantis core sets `.widget-toolbar > a { padding: 0; }`, which beats
+   Bootstrap's .btn padding by specificity, so the icon+label get glued
+   to the button edges. Restore horizontal padding + spacing between them. */
+
+#foldAllButton,
+#foldUnsavedButton {
+    padding: 0 12px;
+    margin-left: 4px;
+}
+
+
 /* --- Emoji picker readability --- */
 
 #emojiPickerModal .emoji-btn {

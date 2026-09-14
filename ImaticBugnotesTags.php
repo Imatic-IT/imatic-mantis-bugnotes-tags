@@ -14,15 +14,16 @@ class ImaticBugnotesTagsPlugin extends MantisPlugin
     const GET_COLLAPSED = 'get_collapsed';
     const SET_FOLD_MODE = 'set_fold_mode';
     const GET_FOLD_MODE = 'get_fold_mode';
+    const COLLAPSE_ALL   = 'collapse_all';
+    const UNCOLLAPSE_ALL = 'uncollapse_all';
 
-    const EMOJIBASE_CDN = 'https://cdn.jsdelivr.net/npm/emojibase-data@latest';
     const CSRF_FORM_NAME = 'imatic_bugnote_highlights';
 
     public function register(): void
     {
         $this->name = 'Imatic Bugnote Tools';
         $this->description = 'Per-user bugnote interactions: save, collapse, emoji reactions, saved-notes page.';
-        $this->version = '1.0.3';
+        $this->version = '1.0.4';
         $this->requires = [
             'MantisCore' => '2.0.0',
         ];
@@ -172,6 +173,8 @@ class ImaticBugnotesTagsPlugin extends MantisPlugin
                 'fold_unsaved'   => plugin_lang_get('fold_unsaved'),
                 'show_all'       => plugin_lang_get('show_all'),
                 'n_notes_hidden' => plugin_lang_get('n_notes_hidden'),
+                'fold_all'       => plugin_lang_get('fold_all'),
+                'unfold_all'     => plugin_lang_get('unfold_all'),
             ],
         ]));
 
@@ -198,6 +201,8 @@ class ImaticBugnotesTagsPlugin extends MantisPlugin
             self::GET_COLLAPSED  => self::GET_COLLAPSED,
             self::SET_FOLD_MODE  => self::SET_FOLD_MODE,
             self::GET_FOLD_MODE  => self::GET_FOLD_MODE,
+            self::COLLAPSE_ALL   => self::COLLAPSE_ALL,
+            self::UNCOLLAPSE_ALL => self::UNCOLLAPSE_ALL,
         ];
     }
 

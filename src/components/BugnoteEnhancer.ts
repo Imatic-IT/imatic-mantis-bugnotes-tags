@@ -27,6 +27,7 @@ export class BugnoteEnhancer {
         await this.loadCollapsedBugnotes()
         await this.loadFoldMode()
         await this.initializeBugnoteUI()
+        this.renderCollapseAllButton()
         this.renderFoldToggleButton()
         if (this.foldModeEnabled) {
             this.applyFoldMode(true)
@@ -205,6 +206,69 @@ export class BugnoteEnhancer {
             }
         } else {
             this.collapsedBugnotes = this.collapsedBugnotes.filter(id => id !== bugnoteId);
+        }
+    }
+
+    // --- Collapse all / uncollapse all (snapshot of notes present now) ---
+
+    private renderCollapseAllButton(): void {
+        const toolbar = document.querySelector<HTMLElement>('#bugnotes .widget-toolbar');
+        if (!toolbar) return;
+
+        const btn = document.createElement('a');
+        btn.id = 'foldAllButton';
+        btn.className = 'btn btn-primary btn-white btn-round btn-sm';
+        btn.style.cursor = 'pointer';
+
+        const updateButton = () => {
+            const allCollapsed = this.areAllNotesCollapsed();
+            const label = allCollapsed
+                ? (this.settings.lang?.unfold_all || 'Unfold all')
+                : (this.settings.lang?.fold_all || 'Fold all');
+            const iconClass = allCollapsed ? 'fa-angle-double-down' : 'fa-angle-double-up';
+            btn.innerHTML = `<i class="fa ${iconClass}"></i> ${label}`;
+        };
+
+        updateButton();
+
+        btn.addEventListener('click', async () => {
+            const previous = [...this.collapsedBugnotes];
+            const collapse = !this.areAllNotesCollapsed();
+
+            this.applyCollapsedSnapshot(
+                collapse ? this.getNoteEntries().map(entry => entry.id) : []
+            );
+            updateButton();
+
+            const result = collapse
+                ? await this.collapseHelper.collapseAll()
+                : await this.collapseHelper.uncollapseAll();
+
+            if (result === null) {
+                this.applyCollapsedSnapshot(previous);
+                updateButton();
+            }
+        });
+
+        toolbar.insertAdjacentElement('afterbegin', btn);
+    }
+
+    private getNoteEntries(): { id: string; cell: HTMLTableCellElement; row: HTMLTableRowElement }[] {
+        const cells = this.bugnoteHelper.getBugnotesTableRows() || [];
+        return cells.map(cell => {
+            const row = cell.parentElement as HTMLTableRowElement;
+            return { id: row.id, cell, row };
+        });
+    }
+
+    private areAllNotesCollapsed(): boolean {
+        const entries = this.getNoteEntries();
+        return entries.length > 0 && entries.every(entry => entry.row.classList.contains('collapsed'));
+    }
+
+    private applyCollapsedSnapshot(collapsedIds: string[]): void {
+        for (const { id, cell, row } of this.getNoteEntries()) {
+            this.setCollapsedState(cell, row, id, collapsedIds.includes(id));
         }
     }
 

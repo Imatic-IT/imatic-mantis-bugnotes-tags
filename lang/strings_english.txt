@@ -7,3 +7,5 @@ $s_plugin_ImaticBugnotesTags_collapsed_summary_more = '%d more characters';
 $s_plugin_ImaticBugnotesTags_n_notes_hidden = '%d notes hidden — click to expand';
 $s_plugin_ImaticBugnotesTags_filter_project = 'Project filter';
 $s_plugin_ImaticBugnotesTags_all_projects   = 'All projects';
+$s_plugin_ImaticBugnotesTags_fold_all     = 'Fold all';
+$s_plugin_ImaticBugnotesTags_unfold_all   = 'Unfold all';
