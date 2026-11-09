@@ -23,7 +23,7 @@ class ImaticBugnotesTagsPlugin extends MantisPlugin
     {
         $this->name = 'Imatic Bugnote Tools';
         $this->description = 'Per-user bugnote interactions: save, collapse, emoji reactions, saved-notes page.';
-        $this->version = '1.0.4';
+        $this->version = '1.0.5';
         $this->requires = [
             'MantisCore' => '2.0.0',
         ];

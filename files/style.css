@@ -144,11 +144,6 @@
     background-color: #ffffff;
 }
 
-.modal-body {
-    overflow-y: auto;
-    max-height: 400px;
-}
-
 .hidden-until-ready {
     display: none;
 }
